@@ -25,7 +25,7 @@ import com.OnWeb.demo.service.ProductService;
 @Controller
 public class AdminController {
 
-	public static String uploadDir= System.getProperty("user.dir") + "/src/main/resources/static/productImages";
+	public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/productImages";
 	@Autowired
 	CategoryService categoryService;
 	@Autowired
@@ -97,25 +97,48 @@ public class AdminController {
 		product.setId(productDTO.getId());
 		product.setName(productDTO.getName());
 		Optional<Category> category = categoryService.getCategoryByID(productDTO.getCategoryId());
-		
+
 		product.setCategory(category.get());
-		
+
 		product.setPrice(productDTO.getPrice());
 		product.setWeight(productDTO.getWeight());
-		product.setDescription(product.getDescription());
+		product.setDescription(productDTO.getDescription());
 
 		String imageUUID;
 		if (!file.isEmpty()) {
 			imageUUID = file.getOriginalFilename();
 			Path fileNameAndPath = Paths.get(uploadDir, imageUUID);
 			Files.write(fileNameAndPath, file.getBytes());
-		}else {
-			imageUUID=imgName;
+		} else {
+			imageUUID = imgName;
 		}
 		product.setImageName(imageUUID);
 		productService.addProduct(product);
-		
+
 		return "redirect:/admin/products";
 	}
 
+	@GetMapping("/admin/product/delete/{id}")
+	public String deleteProduct(@PathVariable int id) {
+		productService.removeProduct(id);
+		return "redirect:/admin/products";
+	}
+
+	@GetMapping("/admin/product/update/{id}")
+	public String UpdateProduct(@PathVariable int id, Model model) {
+		Product product = productService.getProduct(id).get();
+		ProductDTO productDTO = new ProductDTO();
+		productDTO.setId(product.getId());
+		productDTO.setName(product.getName());
+		productDTO.setCategoryId(product.getCategory().getId());
+		productDTO.setPrice(product.getPrice());
+		productDTO.setWeight(product.getWeight());
+		productDTO.setDescription(product.getDescription());
+		productDTO.setImageName(product.getImageName());
+
+		model.addAttribute("categories", categoryService.getAllAttribute());
+		model.addAttribute("productDTO", productDTO);
+		return "productsAdd";
+	}
+//10.49
 }

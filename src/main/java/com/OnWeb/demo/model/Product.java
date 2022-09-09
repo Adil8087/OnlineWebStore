@@ -15,7 +15,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue()
-	private long id;
+	private int id;
 	private String name;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

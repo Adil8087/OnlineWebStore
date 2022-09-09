@@ -26,10 +26,10 @@ public class ProductService {
 	{
 		productRepository.save(product);
 	}
-	public void removeProduct(Integer id) {
+	public void removeProduct(int id) {
 		productRepository.deleteById(id);
 	}
-	public Optional<Product> getProduct(Integer id){
+	public Optional<Product> getProduct(int id){
 		return productRepository.findById(id);
 	}
 	
