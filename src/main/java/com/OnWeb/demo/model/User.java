@@ -39,7 +39,7 @@ public class User {
 	@Email(message = "{err.invalid email}")
 	private String email;
 	
-	@NotEmpty 
+	
 	private String password;
 	
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
