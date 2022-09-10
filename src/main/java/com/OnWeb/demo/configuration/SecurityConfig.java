@@ -42,17 +42,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.loginPage("/login")
 		.permitAll()
 		.failureUrl("/login?error=true")
-		.defaultSuccessUrl("/")
+		.defaultSuccessUrl("/home")
 		.usernameParameter("email")
 		.passwordParameter("password")
-		.and()
-		.oauth2Login()
-		.loginPage("/login")
-		.successHandler(googleOAuth2SuccessHandler)
+//		.and()
+//		.oauth2Login()
+//		.loginPage("/login")
+//		.successHandler(googleOAuth2SuccessHandler)
 		.and()
 		.logout()
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-		.logoutSuccessUrl("/login")
+		.logoutSuccessUrl("/home")
 		.invalidateHttpSession(true)
 		.deleteCookies("JSESSIONID")
 		.and()
@@ -101,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**","/static/**","/images/**","/productimages/**", "/css/**","/js/**");
+		web.ignoring().antMatchers("/resources/**","/static/**","/images/**","/productImages/**", "/css/**","/js/**");
 	
 	}
 	
